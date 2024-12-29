@@ -1,0 +1,24 @@
+Async Function process_entry(comparator, entry):
+    Extract post information
+    Format analysis request text
+    Prepare image paths
+    Try:
+        Get results from all models
+        Parse JSON responses
+        Return structured output
+    Catch:
+        Return error information
+
+Async Function process_batch(comparator, entries, output_file):
+    For each entry in batch:
+        Process entry in parallel
+        Write results to output file
+
+Main Process:
+    Initialize AIModelComparator
+    Open input data file
+    Create output file with timestamp
+    For each batch in data:
+        Process batch of entries
+        Write results to output file
+    Close output file

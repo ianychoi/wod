@@ -1,0 +1,32 @@
+Class AIModelComparator:
+    Initialize:
+        Set up LLM models
+        Configure system prompt for exercise analysis
+
+    Function encode_image(image_path):
+        Open image
+        Convert to base64 string
+        Return encoded image
+
+    Function prepare_messages(text, image_paths):
+        Create message list with system prompt
+        If images exist:
+            Encode each image
+            Add text and images to message
+        Else:
+            Add only text to message
+        Return messages
+
+    Async Function analyze_with_model(model, text, image_paths, model_name):
+        Start timer
+        Prepare messages
+        Try:
+            Get model response with token tracking
+            Calculate execution time
+            Return results and metrics
+        Catch:
+            Return error information
+
+    Async Function compare_models(text, image_paths):
+        Execute analysis on all models in parallel
+        Return combined results
