@@ -1,0 +1,13 @@
+[
+    {
+        "post_id": "1405877770031241",
+        "actor_id": "(arbitrary_actor_id)",
+        "name": "홍길동",
+        "content": "꾸준하게 걷고 운동하고 있슴다ㅎ",
+        "post_date": "2024-07-28",
+        "photos": [
+            "photo-1405877770031241-3.jpg",
+            "photo-1405877770031241-1.jpg"
+        ]
+    }
+]
