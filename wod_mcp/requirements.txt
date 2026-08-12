@@ -1,0 +1,14 @@
+# MCP layer + agent. Install alongside the existing llmops deps (langchain,
+# langchain-aws, langchain-openai, pillow, python-dotenv) which the tools reuse.
+mcp>=1.2.0
+langchain-mcp-adapters>=0.1.0
+langgraph>=0.2.0
+
+# Reused by the tools (also in llmops/requirements.txt); listed here so the MCP
+# layer is installable on its own.
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-aws>=0.2.0
+langchain-openai>=0.2.0
+pillow>=10.0.0
+python-dotenv>=1.0.0

@@ -124,6 +124,7 @@ celerybeat.pid
 # Environments
 .env
 .env*
+!.env-example
 .venv
 env/
 venv/
@@ -165,3 +166,6 @@ cython_debug/
 # Unneeded files
 html
 screenshots
+
+# wod_mcp per-session run artifacts (state + trace)
+wod_mcp/runs/

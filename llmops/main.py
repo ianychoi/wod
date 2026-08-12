@@ -1,8 +1,9 @@
 from langchain_community.callbacks.manager import get_openai_callback
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_aws import ChatBedrockConverse
 from langchain_openai import ChatOpenAI, AzureChatOpenAI
 from typing import List, Dict
+import asyncio
 import os
 from dotenv import load_dotenv
 from PIL import Image
@@ -20,7 +21,7 @@ class AIModelComparator:
         self.openai_chat = ChatOpenAI(
             model=os.getenv("OPENAI_MODEL_NAME"),
             temperature=os.getenv("LANGCHAIN_TEMPERATURE", 0.7),
-            max_tokens=1500,
+            max_tokens=4096,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
         
@@ -39,9 +40,18 @@ class AIModelComparator:
             credentials_profile_name=os.getenv("AWS_BEDROCK_PROFILE_NAME"),
             region_name=os.getenv("AWS_BEDROCK_REGION_NAME"),
             temperature= os.getenv("LANGCHAIN_TEMPERATURE", 0.7),
-            max_tokens= 1500
+            max_tokens= 4096
         )
-        
+
+        # Initialize Bedrock Llama (vision-capable, e.g. us.meta.llama4-scout-17b-instruct-v1:0)
+        self.llama_chat = ChatBedrockConverse(
+            model=os.getenv("AWS_BEDROCK_LLAMA_MODEL"),
+            credentials_profile_name=os.getenv("AWS_BEDROCK_PROFILE_NAME"),
+            region_name=os.getenv("AWS_BEDROCK_REGION_NAME"),
+            temperature=os.getenv("LANGCHAIN_TEMPERATURE", 0.7),
+            max_tokens=4096
+        )
+
         # 시스템 프롬프트 설정
         self.system_prompt = SystemMessage(
             content="운동 데이터를 분석하고 피드백을 제공하는 전문 트레이너입니다."
@@ -106,7 +116,8 @@ class AIModelComparator:
         tasks = [
             self.analyze_with_model(self.openai_chat, text, image_paths, "OpenAI"),
             self.analyze_with_model(self.azure_chat, text, image_paths, "Azure OpenAI"),
-            self.analyze_with_model(self.bedrock_chat, text, image_paths, "Claude (Bedrock)")
+            self.analyze_with_model(self.bedrock_chat, text, image_paths, "Claude (Bedrock)"),
+            self.analyze_with_model(self.llama_chat, text, image_paths, "Llama (Bedrock)")
         ]
         
         # Execute all tasks concurrently
@@ -221,5 +232,4 @@ async def main():
         output_file.write("\n]")
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
